@@ -20,7 +20,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  assets:
-    - assets/shaders/furspace.sksl
   shaders:
       - assets/shaders/furspace.frag
