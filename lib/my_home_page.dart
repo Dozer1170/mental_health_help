@@ -1,46 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:mental_health_help/styles.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class DailyMeditationPractice extends StatefulWidget {
+  const DailyMeditationPractice({super.key, required this.title});
 
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<DailyMeditationPractice> createState() => _DailyMeditationPracticeState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _DailyMeditationPracticeState extends State<DailyMeditationPractice> {
   final tts = FlutterTts();
-  int _counter = 0;
-
-  Future<void> _incrementCounter() async {
-    await tts.speak("Hello World");
-    setState(() {
-      _counter++;
-    });
-  }
-
-// say "Welcome to your daily practice Eric." -v $VOICE
-// say "Take a deep breath and settle in." -v $VOICE
-// sleep 16
-
-// say "Now we will do some mindfulness. Choose mindful breathing or wise mind meditation." -v $VOICE
-// sleep 180
-
-// say "Now we will do deep relaxation. Choose cue-controlled relaxation, band of light, safe-place visualization, or progressive muscle relaxation." -v $VOICE
-// sleep 180
-
-// say "Now we will do self observation. Choose thought defusion, judgement defusion,  or be mindful of emotions without judgement." -v $VOICE
-// sleep 180
-
-// say "Now we will do affirmation. Some examples are I am learning every day, I can do this, I have grown so much, I am doing the best I can, I love the people in my life, I love me, or My actions are in line with my values." -v $VOICE
-// sleep 180
-
-// say "Select a committed action. Some examples are physical health, read self help, be assertive about a problem, use problem solving, spend quality time with kids, do something you enjoy, use beginner's mind, use radical acceptance, use FLAME, improve your physical space, use REST." -v $VOICE
-// sleep 20
-
-// say "Well done Eric, you have completed your daily practice. See you tomorrow." -v $VOICE
+  //TODO use defaults
+  final Map<String, PromptControllers> meditationInfoMap = {
+    'First Name': PromptControllers(
+      promptController: TextEditingController(),
+      durationController: TextEditingController(),
+    ),
+    'Mindfulness Meditation': PromptControllers(
+      promptController: TextEditingController(),
+      durationController: TextEditingController(),
+    ),
+    'Deep Relaxation': PromptControllers(
+      promptController: TextEditingController(),
+      durationController: TextEditingController(),
+    ),
+    'Self Observation': PromptControllers(
+      promptController: TextEditingController(),
+      durationController: TextEditingController(),
+    ),
+    'Committed Action': PromptControllers(
+      promptController: TextEditingController(),
+      durationController: TextEditingController(),
+    ),
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -49,34 +44,69 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            buildTextField('First Name'),
-            buildTextField('Last Name'),
-            buildTextField('Mindfulness Meditation'),
-            buildTextField('Deep Relaxation'),
-            buildTextField('Committed Action'),
+            //TODO use defaults
+            buildTextField(labelText: 'First Name', duration: 2),
+            buildTextField(labelText: 'Mindfulness Meditation', lines: 5, duration: 180),
+            buildTextField(labelText: 'Deep Relaxation', lines: 5, duration: 180),
+            buildTextField(labelText: 'Self Observation', lines: 5, duration: 180),
+            buildTextField(labelText: 'Committed Action', lines: 5, duration: 20),
           ],
         ),
       ),
     );
   }
 
-  Widget buildTextField(String labelText) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text(
-          labelText,
-        ),
-        TextField(
-          decoration: InputDecoration(
-            labelText: labelText,
+  Widget buildTextField({
+    required String labelText,
+    required int duration,
+    String? defaultText,
+    int lines = 1,
+  }) {
+    final controllers = meditationInfoMap[labelText];
+    if (controllers == null) {
+      throw Exception('No controllers found for $labelText');
+    }
+
+    return Padding(
+      padding: mdEdge,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(labelText, style: labelTextStyle),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: controllers.promptController,
+                  minLines: lines,
+                  maxLines: lines,
+                  decoration: buildInputDecoration(labelText),
+                ),
+              ),
+              const SizedBox(width: md),
+              Expanded(
+                child: TextField(
+                  decoration: buildInputDecoration('Duration'),
+                ),
+              ),
+            ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
+}
+
+class PromptControllers {
+  final TextEditingController promptController;
+  final TextEditingController durationController;
+
+  PromptControllers({
+    required this.promptController,
+    required this.durationController,
+  });
 }
