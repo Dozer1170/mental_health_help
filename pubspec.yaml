@@ -1,0 +1,26 @@
+name: mental_health_help
+description: "A new Flutter project."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.2.6 <4.0.0'
+
+dependencies:
+  shaderify: ^0.0.3
+  flutter_tts: ^4.0.2
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/shaders/furspace.sksl
+  shaders:
+      - assets/shaders/furspace.frag
