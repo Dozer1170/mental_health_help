@@ -7,11 +7,7 @@ const double lg = 32.0;
 const smEdge = EdgeInsets.all(8.0);
 const mdEdge = EdgeInsets.all(16.0);
 const lgEdge = EdgeInsets.all(32.0);
-
-const TextStyle labelTextStyle = TextStyle(
-  fontSize: 20,
-  fontWeight: FontWeight.bold,
-);
+const xlEdge = EdgeInsets.all(64.0);
 
 InputDecoration buildInputDecoration(String labelText) {
   return InputDecoration(
