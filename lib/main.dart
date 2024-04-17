@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mental_health_help/daily_meditation_practice.dart';
+import 'package:mental_health_help/home.dart';
 import 'package:mental_health_help/strings.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const DailyMeditationPractice(),
+      home: const Home(),
     );
   }
 }
