@@ -3,6 +3,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'package:mental_health_help/defaults.dart';
 import 'package:mental_health_help/strings.dart';
 import 'package:mental_health_help/styles.dart';
+import 'package:mental_health_help/widgets/prompt_edit.dart';
 
 class DailyMeditationPractice extends StatefulWidget {
   const DailyMeditationPractice({super.key});
@@ -12,7 +13,9 @@ class DailyMeditationPractice extends StatefulWidget {
 }
 
 class _DailyMeditationPracticeState extends State<DailyMeditationPractice> {
+  bool _isSpeaking = false;
   final _tts = FlutterTts();
+  final order = [mindfulness, deepRelaxation, selfObservation, affirmation, committedAction];
   final Map<Prompt, PromptControllers> promptControllers = {
     mindfulness: PromptControllers(mindfulness),
     deepRelaxation: PromptControllers(deepRelaxation),
@@ -20,7 +23,6 @@ class _DailyMeditationPracticeState extends State<DailyMeditationPractice> {
     affirmation: PromptControllers(affirmation),
     committedAction: PromptControllers(committedAction),
   };
-  bool _isSpeaking = false;
 
   @override
   Widget build(BuildContext context) {
@@ -53,51 +55,14 @@ class _DailyMeditationPracticeState extends State<DailyMeditationPractice> {
           const SizedBox(height: md),
           // For each pompt, build a text field for the prompt and a text field for the duration
           Column(
-            children: promptControllers.entries.map((entry) => buildPromptField(prompt: entry.key)).toList(),
+            children: [
+              for (var prompt in order) PromptEdit(prompt: prompt, controllers: promptControllers[prompt]!, lines: 5),
+            ],
           ),
         ],
       );
 
-  Widget buildPromptField({
-    required Prompt prompt,
-    int lines = 1,
-  }) {
-    final controllers = promptControllers[prompt];
-    if (controllers == null) {
-      throw Exception('No controllers found for $prompt.promptText');
-    }
-
-    return Padding(
-      padding: lgEdge,
-      child: Card(
-        child: Padding(
-          padding: mdEdge,
-          child: Column(
-            children: <Widget>[
-              Text(prompt.title, style: Theme.of(context).textTheme.headlineSmall),
-              const SizedBox(height: md),
-              TextField(
-                controller: controllers.promptController,
-                minLines: lines,
-                maxLines: lines,
-                decoration: buildInputDecoration('${prompt.title} Voice Prompt'),
-              ),
-              const SizedBox(height: sm),
-              TextField(
-                controller: controllers.durationController,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: 'Duration',
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  void _onStartMeditationButtonPressed() {
+  Future<void> _onStartMeditationButtonPressed() async {
     setState(() {
       if (_isSpeaking) {
         _tts.stop();
@@ -106,17 +71,29 @@ class _DailyMeditationPracticeState extends State<DailyMeditationPractice> {
       }
 
       _isSpeaking = true;
+    });
+
+    if (_isSpeaking) {
       // Speak the prompts one at a time
-      promptControllers.forEach((prompt, controllers) async {
+      for (var prompt in order) {
+        final controllers = promptControllers[prompt]!;
         final promptText = controllers.promptController.text;
         final duration = int.tryParse(controllers.durationController.text) ?? 0;
         if (promptText.isNotEmpty && duration > 0) {
-          _tts.speak(promptText);
+          if (!_isSpeaking) {
+            break;
+          }
+
+          await _tts.speak(promptText);
+
+          if (!_isSpeaking) {
+            break;
+          }
           // Wait for the duration before speaking the next prompt
           await Future.delayed(Duration(seconds: duration));
         }
-      });
-    });
+      }
+    }
   }
 }
 

@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 final Prompt welcomeDailyPractice = Prompt(_welcomeDailyPracticeTitle, _welcomeDailyPractice, 0);
 final Prompt deepBreath = Prompt(_deepBreathTitle, _deepBreath, 15);
 final Prompt mindfulness = Prompt(_mindfulnessTitle, _mindfulness, 180);
@@ -41,4 +43,16 @@ class Prompt {
   final int duration;
 
   Prompt(this.title, this.promptText, this.duration);
+
+  @override
+  int get hashCode => title.hashCode ^ promptText.hashCode ^ duration.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Prompt &&
+          runtimeType == other.runtimeType &&
+          title == other.title &&
+          promptText == other.promptText &&
+          duration == other.duration;
 }
