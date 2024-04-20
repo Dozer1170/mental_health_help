@@ -8,6 +8,7 @@ environment:
 
 dependencies:
   shaderify: ^0.0.3
+  shared_preferences: ^2.0.0
   flutter_tts: ^4.0.2
   flutter:
     sdk: flutter

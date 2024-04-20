@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:mental_health_help/defaults.dart';
+import 'package:mental_health_help/prompt_controllers.dart';
 import 'package:mental_health_help/strings.dart';
 import 'package:mental_health_help/styles.dart';
+import 'package:mental_health_help/utils.dart';
 import 'package:mental_health_help/widgets/prompt_edit.dart';
 
 class DailyMeditationPractice extends StatefulWidget {
@@ -23,6 +25,22 @@ class _DailyMeditationPracticeState extends State<DailyMeditationPractice> {
     affirmation: PromptControllers(affirmation),
     committedAction: PromptControllers(committedAction),
   };
+
+  @override
+  void initState() {
+    super.initState();
+    promptControllers.forEach((key, value) {
+      value.promptController.addListener(() => savePref('${key.title}prompt', value.promptController.text));
+      value.durationController.addListener(() => savePref('${key.title}duration', value.durationController.text));
+    });
+
+    promptControllers.forEach((key, value) async {
+      final prompt = await getPref('${key.title}prompt');
+      final duration = await getPref('${key.title}duration');
+      value.promptController.text = prompt ?? key.promptText;
+      value.durationController.text = duration ?? key.duration.toString();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,16 +112,5 @@ class _DailyMeditationPracticeState extends State<DailyMeditationPractice> {
         }
       }
     }
-  }
-}
-
-class PromptControllers {
-  final TextEditingController promptController = TextEditingController();
-  final TextEditingController durationController = TextEditingController();
-  final Prompt prompt;
-
-  PromptControllers(this.prompt) {
-    promptController.text = prompt.promptText;
-    durationController.text = prompt.duration.toString();
   }
 }
