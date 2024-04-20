@@ -46,9 +46,11 @@ class _DailyMeditationPracticeState extends State<DailyMeditationPractice> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text(dailyPracticeHeader),
-      ),
+          title: const Text(dailyPracticeHeader),
+          leading: IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () => Navigator.pop(context),
+          )),
       body: SingleChildScrollView(
         child: Center(
           child: ConstrainedBox(

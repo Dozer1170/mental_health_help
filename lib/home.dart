@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mental_health_help/daily_meditation_practice.dart';
 import 'package:mental_health_help/strings.dart';
-import 'package:mental_health_help/transitions.dart';
+import 'package:mental_health_help/styles.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -11,15 +10,20 @@ class Home extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(appName),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _dailyPracticeButton(context),
-          ],
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 600),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              const SizedBox(height: lg),
+              Text(appPurpose, style: Theme.of(context).textTheme.bodyMedium),
+              const SizedBox(height: xl),
+              _dailyPracticeButton(context),
+              const Spacer(),
+            ],
+          ),
         ),
       ),
     );
@@ -27,24 +31,8 @@ class Home extends StatelessWidget {
 
   Widget _dailyPracticeButton(BuildContext context) {
     return ElevatedButton(
-      onPressed: () => _pushDailyPractice(context),
+      onPressed: () => Navigator.pushNamed(context, '/dailypractice'),
       child: const Text(goToDailyMeditation),
-    );
-  }
-
-  void _pushDailyPractice(BuildContext context) {
-    Navigator.of(context).push(
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) => const DailyMeditationPractice(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return buildTransition(
-            type: TransitionType.slideUp,
-            animation: animation,
-            curve: Curves.easeInOutCirc,
-            child: child,
-          );
-        },
-      ),
     );
   }
 }
