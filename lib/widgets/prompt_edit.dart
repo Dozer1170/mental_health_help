@@ -1,3 +1,5 @@
+import 'dart:js';
+
 import 'package:flutter/material.dart';
 import 'package:mental_health_help/defaults.dart';
 import 'package:mental_health_help/prompt_controllers.dart';
@@ -30,15 +32,15 @@ class PromptEdit extends StatelessWidget {
                 controller: controllers.promptController,
                 minLines: lines,
                 maxLines: lines,
-                decoration: buildInputDecoration('${prompt.title} Voice Prompt'),
+                style: Theme.of(context).textTheme.bodyMedium,
+                decoration: InputDecoration(labelText: '${prompt.title} Voice Prompt'),
               ),
               const SizedBox(height: sm),
               TextField(
                 controller: controllers.durationController,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: 'Duration',
-                ),
+                style: Theme.of(context).textTheme.bodyMedium,
+                decoration: const InputDecoration(labelText: 'Duration'),
               ),
             ],
           ),

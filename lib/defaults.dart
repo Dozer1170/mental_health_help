@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 final Prompt welcomeDailyPractice = Prompt(_welcomeDailyPracticeTitle, _welcomeDailyPractice, 0);
 final Prompt deepBreath = Prompt(_deepBreathTitle, _deepBreath, 15);
 final Prompt mindfulness = Prompt(_mindfulnessTitle, _mindfulness, 180);

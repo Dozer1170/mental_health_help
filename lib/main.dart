@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mental_health_help/daily_meditation_practice.dart';
 import 'package:mental_health_help/home.dart';
 import 'package:mental_health_help/strings.dart';
+import 'package:mental_health_help/themes.dart';
 import 'package:mental_health_help/transitions.dart';
 
 void main() {
@@ -15,26 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: appName,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
-        primaryColor: Colors.blueGrey,
-        scaffoldBackgroundColor: Colors.white,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Colors.blueGrey,
-          foregroundColor: Colors.white,
-        ),
-        textTheme: const TextTheme(
-          titleLarge: TextStyle(
-            color: Colors.blueGrey,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-          bodyMedium: TextStyle(
-            color: Colors.black,
-            fontSize: 16,
-          ),
-        ),
-      ),
+      theme: darkTheme,
       onGenerateRoute: (settings) {
         return PageRouteBuilder(
           pageBuilder: (context, animation, secondaryAnimation) {
