@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:flutter/material.dart';
 import 'package:mental_health_help/defaults.dart';
 import 'package:mental_health_help/prompt_controllers.dart';

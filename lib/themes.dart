@@ -18,6 +18,32 @@ final lightTheme = ThemeData(
       color: Colors.black,
       fontSize: 16,
     ),
+    headlineSmall: TextStyle(
+      color: Colors.blueGrey,
+      fontSize: 18,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
+  // Add the missing themes from the darkTheme
+  cardTheme: CardTheme(
+    color: Colors.white,
+    elevation: 4,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(8),
+    ),
+  ),
+  inputDecorationTheme: InputDecorationTheme(
+    labelStyle: const TextStyle(
+      color: Colors.blueGrey,
+      fontSize: 16,
+    ),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderSide: const BorderSide(color: Colors.blueGrey, width: 2.0),
+      borderRadius: BorderRadius.circular(10),
+    ),
   ),
 );
 
